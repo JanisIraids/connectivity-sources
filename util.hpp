@@ -16,31 +16,52 @@ std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {
   return out;
 }
 
-float collatz_wielandt(VectorXf v, VectorXf Mv)
+float collatz_wielandt_max(VectorXf v, MatrixXf M)
 {
-  float m = std::numeric_limits<double>::max();
-  for (int i = 0; i < v.size(); i++)
-    if (v[i] > 1e-10)
-      m = std::min(m, Mv[i]/v[i]);
+  VectorXf vz = v;
+  for (int i = 0; i < vz.size(); i++)
+    if (!(vz[i] > 1e-10))
+      vz[i] = 1e-10;
+  VectorXf Mvz = M*vz;
+  float m = 0;
+  for (int i = 0; i < vz.size(); i++)
+      m = std::max(m, Mvz[i]/vz[i]);
   return m;
 }
 
-double powerit(MatrixXf M, float tol, VectorXf v)
+float collatz_wielandt_min(VectorXf v, MatrixXf M)
 {
-  v /= v.norm();
-  VectorXf nextv = M*v;
-  double cw = collatz_wielandt(v, nextv);
-  while (abs(1-cw/nextv.norm()) > tol)
-  {
-    v = nextv;
-    v /= v.norm();
-    nextv = M*v;
-    cw = collatz_wielandt(v, nextv);
-  }
-  return cw;
+  VectorXf vz = v;
+  for (int i = 0; i < vz.size(); i++)
+    if (!(vz[i] > 1e-10))
+      vz[i] = 0;
+  VectorXf Mvz = M*vz;
+  float m = std::numeric_limits<double>::max();
+  for (int i = 0; i < vz.size(); i++)
+    if (vz[i] > 1e-10)
+      m = std::min(m, Mvz[i]/vz[i]);
+  return m;
 }
 
-double powerit(MatrixXf M, float tol)
+VectorXf powerit(MatrixXf M, float tol, VectorXf v)
+{
+  v = v.normalized();
+  VectorXf nextv = M*v;
+  double cwmax = collatz_wielandt_max(v, M);
+  double cwmin = collatz_wielandt_min(v, M);
+  while (abs(1-cwmax/cwmin) > tol)
+  {
+    v = nextv;
+    v = v.normalized();
+    nextv = M*v;
+    cwmax = collatz_wielandt_max(v, M);
+    cwmin = collatz_wielandt_min(v, M);
+    std::cout << cwmin << " " << cwmax << std::endl;
+  }
+  return v;
+}
+
+VectorXf powerit(MatrixXf M, float tol)
 {
   return powerit(M, tol, VectorXf::Ones(M.cols()));
 }

@@ -30,9 +30,8 @@ int main(int argc, char** argv)
     if (!failed)
       valid_inputs.push_back(input);
   }
-  std::cout << "valid inputs = " << valid_inputs.size() << std::endl;
-  MatrixXf adj = MatrixXf::Zero(valid_inputs.size(),valid_inputs.size());
-  ul nnz = 0;
+  //std::cout << "valid inputs = " << valid_inputs.size() << std::endl;
+  MatrixXf S = MatrixXf::Zero(valid_inputs.size(),valid_inputs.size());
   for (ul i = 0; i < valid_inputs.size(); i++)
   {
     for (ul j = 0; j < valid_inputs.size(); j++)
@@ -45,13 +44,11 @@ int main(int argc, char** argv)
       }
       if (!failed)
       {
-        adj(i,j) = 1;
-        // nnz++;
-        // if (nnz % 1000000 == 0)
-        //   std::cout << nnz << " " << i << std::endl;
+        S(i,j) = 1;
       }
     }
   }
-  std::cout << pow(powerit(adj, 0.0001), 1.0/(4*d)) << std::endl;
+  VectorXf eig = powerit(S, 1e-6);
+  std::cout << pow(collatz_wielandt_min(eig, S), 1.0/(4*d)) << std::endl;
   return 0;
 }

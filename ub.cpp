@@ -39,8 +39,9 @@ int main(int argc, char** argv)
     A01 = nA01;
     A10 = nA10;
     A11 = nA11;
-    MatrixXf A = nA00+nA01+nA10+nA11;
-    std::cout << i << " " << pow(A.operatorNorm(), 1.0/(4*i)) << std::endl;
+    MatrixXf Sprime = nA00+nA01+nA10+nA11;
+    VectorXf eig = powerit(Sprime, 0.0001);
+    std::cout << i << " " << pow(collatz_wielandt_max(eig, Sprime), 1.0/(4*i)) << std::endl;
   }
   return 0;
 }
