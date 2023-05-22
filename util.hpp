@@ -2,7 +2,6 @@
 
 typedef unsigned long ul;
 
-
 template <typename T>
 std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {
     out << '[';
@@ -18,10 +17,10 @@ std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {
 
 float collatz_wielandt_max(VectorXf v, MatrixXf M)
 {
+  const float EPS = 1e-10;
   VectorXf vz = v;
   for (int i = 0; i < vz.size(); i++)
-    if (!(vz[i] > 1e-10))
-      vz[i] = 1e-10;
+    vz[i] = std::max(vz[i], EPS);
   VectorXf Mvz = M*vz;
   float m = 0;
   for (int i = 0; i < vz.size(); i++)
@@ -31,14 +30,15 @@ float collatz_wielandt_max(VectorXf v, MatrixXf M)
 
 float collatz_wielandt_min(VectorXf v, MatrixXf M)
 {
+  const float EPS = 1e-10;
   VectorXf vz = v;
   for (int i = 0; i < vz.size(); i++)
-    if (!(vz[i] > 1e-10))
+    if (!(vz[i] > EPS))
       vz[i] = 0;
   VectorXf Mvz = M*vz;
   float m = std::numeric_limits<double>::max();
   for (int i = 0; i < vz.size(); i++)
-    if (vz[i] > 1e-10)
+    if (vz[i] > EPS)
       m = std::min(m, Mvz[i]/vz[i]);
   return m;
 }
