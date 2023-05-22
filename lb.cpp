@@ -7,43 +7,13 @@
 
 using namespace Eigen;
 
-
-typedef unsigned long ul;
-
-template <typename T>
-std::ostream& operator<< (std::ostream& out, const std::vector<T>& v) {
-    out << '[';
-    if (v.size())
-    {
-      out << v[0];
-      for (ul i = 1; i < v.size(); i++)
-        out << ", " << v[i];
-    }
-    out << "]";
-  return out;
-}
-
-double powerit(MatrixXf M, float tol)
-{
-  VectorXf v = VectorXf::Ones(M.cols());
-  v /= v.norm();
-  v = M*v;
-  float prev;
-  do
-  {
-    prev = v.norm();
-    v /= v.norm();
-    v = M*v;
-    std::cout << v.norm() << std::endl;
-  }
-  while (abs(1-v.norm()/prev)>tol);
-  return v.norm();
-}
+#include "util.hpp"
 
 int main(int argc, char** argv)
 {
-  ul d;
-  sscanf(argv[1], "%lu", &d);
+  ul d = 4;
+  if (argc >= 2)
+    sscanf(argv[1], "%lu", &d);
   ul variables = 4*d;
   std::vector<std::vector<bool> > valid_inputs;
   for (ul i = 0; i < (1UL<<variables); i++)
@@ -76,12 +46,12 @@ int main(int argc, char** argv)
       if (!failed)
       {
         adj(i,j) = 1;
-        nnz++;
-        if (nnz % 1000000 == 0)
-          std::cout << nnz << " " << i << std::endl;
+        // nnz++;
+        // if (nnz % 1000000 == 0)
+        //   std::cout << nnz << " " << i << std::endl;
       }
     }
   }
-  std::cout << "max ev = " << powerit(adj, 0.0001) << std::endl;
+  std::cout << pow(powerit(adj, 0.0001), 1.0/(4*d)) << std::endl;
   return 0;
 }
