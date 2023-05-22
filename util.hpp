@@ -24,10 +24,9 @@ float collatz_wielandt(VectorXf v, VectorXf Mv)
       m = std::min(m, Mv[i]/v[i]);
   return m;
 }
-  
-double powerit(MatrixXf M, float tol)
+
+double powerit(MatrixXf M, float tol, VectorXf v)
 {
-  VectorXf v = VectorXf::Ones(M.cols());
   v /= v.norm();
   VectorXf nextv = M*v;
   double cw = collatz_wielandt(v, nextv);
@@ -40,3 +39,9 @@ double powerit(MatrixXf M, float tol)
   }
   return cw;
 }
+
+double powerit(MatrixXf M, float tol)
+{
+  return powerit(M, tol, VectorXf::Ones(M.cols()));
+}
+
