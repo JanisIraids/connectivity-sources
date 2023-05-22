@@ -8,16 +8,13 @@ We construct the matrix $S_i$ explicitly by first constructing all the possible 
 
 ## The upper bound
 We will write matrix $S_i'$ as a sum of four matrices $A_{00}^{(i)}, A_{01}^{(i)}, A_{10}^{(i)}, A_{11}^{(i)}$ where $A_{xy}^{(i)}$ counts only the strips with bottom edges defined by $x$ and $y$. Then the following recursive expression relates $A_{xy}^{(i)}$:
-If $$S_i'=\begin{pmatrix}
-A_{00} & A_{01}\\
-A_{10} & A_{11}
-\end{pmatrix}$$ then
-$$S_{i+1}' =\begin{pmatrix}
-A_{00} +A_{11} & A_{10} +A_{11} & 0 & A_{00} +A_{10} +2A_{11}\\
-A_{01} +A_{11} & A_{00} +A_{01} +A_{10} +A_{11} & 0 & A_{00} +2A_{01} +A_{10} +2A_{11}\\
-\hline
-0 & 0 & 0 & 0\\
-A_{00} +A_{01} +2A_{11} & A_{00} +A_{01} +2A_{10} +2A_{11} & 0 & 2A_{00} +2A_{01} +2A_{10} +4A_{11}
-\end{pmatrix}.$$
+If 
+```math
+A^{(i)}=\begin{pmatrix}A_{00}&A_{01}\\A_{10}&A_{11}\end{pmatrix}
+```
+then 
+```math
+A^{(i+1)} =\left(\begin{array}{cc|cc}A_{00}+A_{11}&A_{10}+A_{11}&0&A_{00}+A_{10}+2A_{11}\\A_{01}+A_{11}& A_{00}+A_{01}+A_{10}+A_{11}&0&A_{00}+2A_{01}+A_{10}+2A_{11}\\ \hline 0&0&0&0\\A_{00}+A_{01}+2A_{11}& A_{00}+A_{01}+2A_{10}+2A_{11}&0&2A_{00}+2A_{01}+2A_{10}+4A_{11}\end{array}\right).
+```
 Thus we construct the matrix $S_i'$ iteratively. Then we compute compute a vector close to $S_i'$ 's principal eigenvector. Then we upper bound the largest eigenvalue by the Collatz-Wielandt formula: $\rho(A) = \max_{x:x_j> 0}{\min_{j}{\frac{[Ax]_j}{x_j}}}$.
 
