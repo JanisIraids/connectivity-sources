@@ -16,5 +16,5 @@ then
 ```math
 A^{(i+1)} =\left(\begin{array}{cc|cc}A_{00}+A_{11}&A_{10}+A_{11}&0&A_{00}+A_{10}+2A_{11}\\A_{01}+A_{11}& A_{00}+A_{01}+A_{10}+A_{11}&0&A_{00}+2A_{01}+A_{10}+2A_{11}\\ \hline 0&0&0&0\\A_{00}+A_{01}+2A_{11}& A_{00}+A_{01}+2A_{10}+2A_{11}&0&2A_{00}+2A_{01}+2A_{10}+4A_{11}\end{array}\right).
 ```
-Thus we construct the matrix $S_i'$ iteratively. Then we compute compute a vector close to $S_i'$ 's principal eigenvector. Then we upper bound the largest eigenvalue by the Collatz-Wielandt formula: $$\rho(A) = \min_{x:x_j\geq 0}{\max_{j:x_j\neq 0}{\frac{[Ax]_j}{x_j}}}.$$
+Thus we construct the matrix $S_i'$ iteratively. Then we compute a vector close to $S_i'$ 's principal eigenvector. Then we upper bound the largest eigenvalue by the Collatz-Wielandt formula: $$\rho(A) = \min_{x:x_j\geq 0}{\max_{j:x_j\neq 0}{\frac{[Ax]_j}{x_j}}}.$$
 
